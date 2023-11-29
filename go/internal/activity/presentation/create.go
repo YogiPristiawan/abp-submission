@@ -12,7 +12,7 @@ func (p *Presentation) Create(c *fiber.Ctx) error {
 	var req dto.CreateReq
 	if err := c.BodyParser(&req); err != nil {
 		var out primitive.BaseResponse
-		out.Status = primitive.ResponseStatusError
+		out.Status = primitive.ResponseStatusBadRequest
 		out.Message = "invalid body"
 		out.Data = struct{}{}
 
