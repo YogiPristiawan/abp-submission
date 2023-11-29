@@ -25,9 +25,8 @@ func (r *Repo) Create(ctx context.Context, in model.CreateIn) (out model.CreateO
 		return
 	}
 
-	now := time.Now().UTC()
-	nowInFormat := now.Format("2006-01-02 15:04:05")
-	_, err = tx.ExecContext(ctx, stmt, in.Title, in.Email, nowInFormat, nowInFormat)
+	now := time.Now()
+	_, err = tx.ExecContext(ctx, stmt, in.Title, in.Email, now.Unix(), now.Unix())
 	if err != nil {
 		err2 := tx.Rollback()
 		if err2 != nil {
@@ -40,6 +39,16 @@ func (r *Repo) Create(ctx context.Context, in model.CreateIn) (out model.CreateO
 	// get the last inserted id
 	var insertedIdStmt = `SELECT MAX(id) AS inserted_id FROM activities`
 	err = tx.QueryRowContext(ctx, insertedIdStmt).Scan(&out.ID)
+	if err != nil {
+		err2 := tx.Rollback()
+		if err2 != nil {
+			return model.CreateOut{}, err2
+		}
+
+		return
+	}
+
+	err = tx.Commit()
 	if err != nil {
 		err2 := tx.Rollback()
 		if err2 != nil {

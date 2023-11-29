@@ -75,7 +75,7 @@ func (s *Service) Create(ctx context.Context, req dto.CreateReq) (out primitive.
 		Email: req.Email,
 	})
 	if err != nil {
-		out.Status = primitive.ResponseStatusBadRequest
+		out.Status = primitive.ResponseStatusInternalServerError
 		out.SetResponse(http.StatusInternalServerError, "internal server error", err)
 		return
 	}

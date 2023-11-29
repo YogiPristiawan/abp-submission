@@ -10,6 +10,7 @@ import (
 
 type IRepository interface {
 	Create(context.Context, model.CreateIn) (model.CreateOut, error)
+	GetById(context.Context, int64) (model.GetByIdOut, error)
 }
 
 type Service struct {

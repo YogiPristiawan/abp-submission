@@ -9,9 +9,10 @@ import (
 type ResponseStatus string
 
 const (
-	ResponseStatusSuccess   ResponseStatus = "Success"
-	ResponseStatusBadRequest ResponseStatus = "Bad Request"
-	ResponseStatusNotFound  ResponseStatus = "Not Found"
+	ResponseStatusSuccess             ResponseStatus = "Success"
+	ResponseStatusBadRequest          ResponseStatus = "Bad Request"
+	ResponseStatusNotFound            ResponseStatus = "Not Found"
+	ResponseStatusInternalServerError ResponseStatus = "Internal Server Error"
 )
 
 // CommonResult provides data struct
