@@ -2,14 +2,16 @@ package main
 
 import (
 	"database/sql"
-	"encoding/json"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"sync"
 	"time"
+	"todo/internal/activity"
 	"todo/internal/shared/database"
+
+	"github.com/goccy/go-json"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cache"
@@ -47,6 +49,12 @@ func main() {
 			"message": "hello world",
 		})
 	})
+
+	// init activity
+	activity := activity.New(&activity.Dependency{
+		DB: db,
+	})
+	activity.Route(app)
 
 	// start
 	var sigChan = make(chan os.Signal, 1)
