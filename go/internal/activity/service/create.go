@@ -65,7 +65,7 @@ func ValidateCreate(req dto.CreateReq) *primitive.RequestValidationError {
 
 func (s *Service) Create(ctx context.Context, req dto.CreateReq) (out primitive.BaseResponse) {
 	if err := ValidateCreate(req); err != nil {
-		out.Status = primitive.ResponseStatusError
+		out.Status = primitive.ResponseStatusBadRequest
 		out.SetResponse(http.StatusBadRequest, err.ErrorFirst(), err)
 		return
 	}
@@ -75,7 +75,7 @@ func (s *Service) Create(ctx context.Context, req dto.CreateReq) (out primitive.
 		Email: req.Email,
 	})
 	if err != nil {
-		out.Status = primitive.ResponseStatusError
+		out.Status = primitive.ResponseStatusInternalServerError
 		out.SetResponse(http.StatusInternalServerError, "internal server error", err)
 		return
 	}

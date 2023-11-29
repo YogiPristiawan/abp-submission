@@ -9,6 +9,7 @@ import (
 
 type IService interface {
 	Create(context.Context, dto.CreateReq) primitive.BaseResponse
+	GetById(context.Context, int64) primitive.BaseResponse
 }
 
 type Presentation struct {
