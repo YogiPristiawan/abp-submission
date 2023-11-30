@@ -13,6 +13,7 @@ type IRepository interface {
 	GetById(context.Context, int64) (model.GetByIdOut, error)
 	FindAll(context.Context) ([]model.FindAllOut, error)
 	UpdateById(context.Context, int64, model.UpdateByIdIn) (model.UpdateByIdOut, error)
+	DeleteById(context.Context, int64) (int64, error)
 }
 
 type Service struct {
