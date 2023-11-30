@@ -74,5 +74,5 @@ type BaseResponseArray struct {
 
 	Status  ResponseStatus `json:"status"`
 	Message string         `json:"message"`
-	Data    []interface{}  `json:"data,omitempty"`
+	Data    []interface{}  `json:"data"`
 }

@@ -10,6 +10,7 @@ import (
 	"time"
 	"todo/internal/activity"
 	"todo/internal/shared/database"
+	"todo/internal/todo"
 
 	"github.com/goccy/go-json"
 
@@ -55,6 +56,12 @@ func main() {
 		DB: db,
 	})
 	activity.Route(app)
+
+	// init todo
+	todo := todo.New(&todo.Dependency{
+		DB: db,
+	})
+	todo.Route(app)
 
 	// start
 	var sigChan = make(chan os.Signal, 1)
