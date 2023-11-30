@@ -35,3 +35,16 @@ type FindAllOut struct {
 	UpdatedAt int64
 	DeletedAt primitive.Int64
 }
+
+type UpdateByIdIn struct {
+	Title string
+}
+
+type UpdateByIdOut struct {
+	ID        int64
+	Title     string
+	Email     string
+	CreatedAt int64
+	UpdatedAt int64
+	DeletedAt primitive.Int64
+}
