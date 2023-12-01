@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"time"
 	"todo/internal/shared/primitive"
@@ -24,8 +23,7 @@ func (s *Service) FindAll(ctx context.Context, query dto.FindAllQuery) (out prim
 
 	// map activities
 	out.Status = primitive.ResponseStatusSuccess
-	if len(out.Data) == 0 {
-		fmt.Println("masuk")
+	if len(todos) == 0 {
 		out.Data = []any{}
 	} else {
 		for _, todo := range todos {

@@ -11,7 +11,7 @@ type ITodoPresentation interface {
 	GetById(c *fiber.Ctx) error
 	Create(c *fiber.Ctx) error
 	// DeleteById(c *fiber.Ctx) error
-	// UpdateById(c *fiber.Ctx) error
+	UpdateById(c *fiber.Ctx) error
 }
 
 func (t Todo) Route(app *fiber.App) {
@@ -23,5 +23,5 @@ func (t Todo) Route(app *fiber.App) {
 	app.Get("/todo-items/:id", t.Presentation.GetById)
 	app.Post("/todo-items", t.Presentation.Create)
 	// app.Delete("/todo-items/:id", t.Presentation.DeleteById)
-	// app.Patch("/todo-items/:id", t.Presentation.UpdateById)
+	app.Patch("/todo-items/:id", t.Presentation.UpdateById)
 }
