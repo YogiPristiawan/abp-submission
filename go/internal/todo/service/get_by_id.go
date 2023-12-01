@@ -16,7 +16,7 @@ func (s *Service) GetById(ctx context.Context, todoId int64) (out primitive.Base
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			out.Status = primitive.ResponseStatusNotFound
-			out.SetResponse(http.StatusNotFound, fmt.Sprintf("Todo ID with %d Not Found", todoId), err)
+			out.SetResponse(http.StatusNotFound, fmt.Sprintf("Todo with ID %d Not Found", todoId), err)
 			return
 		} else {
 			out.Status = primitive.ResponseStatusInternalServerError

@@ -41,7 +41,8 @@ type FindAllOut struct {
 }
 
 type UpdateByIdIn struct {
-	IsActive bool
+	Title    primitive.String
+	IsActive primitive.Bool
 }
 
 type UpdateByIdOut struct {

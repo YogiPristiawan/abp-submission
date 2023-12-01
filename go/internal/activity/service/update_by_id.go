@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"net/http"
 	"time"
 	"todo/internal/activity/dto"
@@ -11,7 +12,7 @@ import (
 	"todo/internal/shared/primitive"
 )
 
-func ValidateUpdateById(req dto.UpdateById) *primitive.RequestValidationError {
+func ValidateUpdateById(req dto.UpdateByIdReq) *primitive.RequestValidationError {
 	var allIssues []primitive.RequestValidationIssue
 
 	// validate title
@@ -19,14 +20,14 @@ func ValidateUpdateById(req dto.UpdateById) *primitive.RequestValidationError {
 		allIssues = append(allIssues, primitive.RequestValidationIssue{
 			Code:    primitive.RequestValidationCodeTooShort,
 			Field:   "title",
-			Message: "title is required",
+			Message: "title cannot be null",
 		})
 	} else {
 		if len(req.Titile) > 255 {
 			allIssues = append(allIssues, primitive.RequestValidationIssue{
 				Code:    primitive.RequestValidationCodeTooLong,
 				Field:   "title",
-				Message: "email too lonng",
+				Message: "email too long",
 			})
 		}
 	}
@@ -40,7 +41,7 @@ func ValidateUpdateById(req dto.UpdateById) *primitive.RequestValidationError {
 	return nil
 }
 
-func (s *Service) UpdateById(ctx context.Context, id int64, req dto.UpdateById) (out primitive.BaseResponse) {
+func (s *Service) UpdateById(ctx context.Context, id int64, req dto.UpdateByIdReq) (out primitive.BaseResponse) {
 	if err := ValidateUpdateById(req); err != nil {
 		out.Status = primitive.ResponseStatusBadRequest
 		out.SetResponse(http.StatusBadRequest, err.ErrorFirst(), err)
@@ -52,7 +53,7 @@ func (s *Service) UpdateById(ctx context.Context, id int64, req dto.UpdateById) 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			out.Status = primitive.ResponseStatusNotFound
-			out.SetResponse(http.StatusNotFound, "Not Found", err)
+			out.SetResponse(http.StatusNotFound, fmt.Sprintf("Activity with ID %d Not Found", id), err)
 			return
 		}
 
@@ -62,7 +63,7 @@ func (s *Service) UpdateById(ctx context.Context, id int64, req dto.UpdateById) 
 	}
 
 	out.Status = primitive.ResponseStatusSuccess
-	out.Data = dto.UpdateByIdOutRes{
+	out.Data = dto.UpdateByIdRes{
 		ID:        updated.ID,
 		Title:     updated.Title,
 		Email:     updated.Email,

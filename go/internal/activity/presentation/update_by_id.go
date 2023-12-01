@@ -12,7 +12,7 @@ import (
 
 func (p *Presentation) UpdateById(c *fiber.Ctx) error {
 	paramId := utils.CopyString(c.Params("id"))
-	var req dto.UpdateById
+	var req dto.UpdateByIdReq
 
 	activityId, err := strconv.ParseInt(paramId, 10, 64)
 	if err != nil {

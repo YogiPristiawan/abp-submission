@@ -15,11 +15,11 @@ import (
 func ValidateUpdateByIdReq(req dto.UpdateByIdReq) *primitive.RequestValidationError {
 	var allIssues []primitive.RequestValidationIssue
 
-	if !req.IsActive.Valid {
+	if !req.IsActive.Valid && !req.Title.Valid {
 		allIssues = append(allIssues, primitive.RequestValidationIssue{
 			Code:    primitive.RequestValidationCodeTooShort,
-			Field:   "is_active",
-			Message: "is_active is required",
+			Field:   "title,is_active",
+			Message: "is_active and title cannot be null",
 		})
 	}
 
@@ -39,9 +39,15 @@ func (s *Service) UpdateById(ctx context.Context, id int64, req dto.UpdateByIdRe
 		return
 	}
 
-	updated, err := s.repo.UpdateById(ctx, id, model.UpdateByIdIn{
-		IsActive: req.IsActive.Bool,
-	})
+	var updateData model.UpdateByIdIn
+	if req.Title.Valid {
+		updateData.Title = req.Title
+	}
+	if req.IsActive.Valid {
+		updateData.IsActive = req.IsActive
+	}
+
+	updated, err := s.repo.UpdateById(ctx, id, updateData)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			out.Status = primitive.ResponseStatusNotFound

@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"database/sql"
+	"strings"
 	"time"
 	"todo/internal/todo/model"
 )
@@ -20,16 +21,31 @@ func (r *Repo) UpdateById(ctx context.Context, id int64, data model.UpdateByIdIn
 		return
 	}
 
-	now := time.Now().Unix()
-	var stmt = `
-	UPDATE todos SET
-		is_active = ?, updated_at = ?
-	WHERE
-		id = ?
-		AND
-		deleted_at IS NULL`
+	var binding []any
+	var stmt strings.Builder
+	stmt.WriteString("UPDATE todos SET")
 
-	commandTag, err := tx.ExecContext(ctx, stmt, data.IsActive, now, id)
+	if data.Title.Valid {
+		stmt.WriteString(" title = ?")
+		binding = append(binding, data.Title.String)
+	}
+
+	if data.IsActive.Valid {
+		if data.Title.Valid {
+			stmt.WriteString(",")
+		}
+
+		stmt.WriteString(" is_active = ?")
+		binding = append(binding, data.IsActive.Bool)
+	}
+
+	stmt.WriteString(", updated_at = ?")
+	binding = append(binding, time.Now().Unix())
+
+	stmt.WriteString(" WHERE id = ? AND deleted_at IS NULL")
+	binding = append(binding, id)
+
+	commandTag, err := tx.ExecContext(ctx, stmt.String(), binding...)
 	if err != nil {
 		err2 := tx.Rollback()
 		if err2 != nil {

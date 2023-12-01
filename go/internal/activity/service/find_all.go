@@ -19,7 +19,7 @@ func (s *Service) FindAll(ctx context.Context) (out primitive.BaseResponseArray)
 	// map activities
 	out.Status = primitive.ResponseStatusSuccess
 	for _, activity := range activities {
-		out.Data = append(out.Data, dto.FindAll{
+		out.Data = append(out.Data, dto.FindAllRes{
 			ID:        activity.ID,
 			Title:     activity.Title,
 			Email:     activity.Email,

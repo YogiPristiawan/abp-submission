@@ -38,14 +38,14 @@ func ValidateCreate(req dto.CreateReq) *primitive.RequestValidationError {
 	}
 
 	// validate title
-	if len(req.Titile) == 0 {
+	if len(req.Title) == 0 {
 		allIssues = append(allIssues, primitive.RequestValidationIssue{
 			Code:    primitive.RequestValidationCodeTooShort,
 			Field:   "title",
-			Message: "title is required",
+			Message: "title cannot be null",
 		})
 	} else {
-		if len(req.Titile) > 255 {
+		if len(req.Title) > 255 {
 			allIssues = append(allIssues, primitive.RequestValidationIssue{
 				Code:    primitive.RequestValidationCodeTooLong,
 				Field:   "title",
@@ -71,7 +71,7 @@ func (s *Service) Create(ctx context.Context, req dto.CreateReq) (out primitive.
 	}
 
 	created, err := s.repo.Create(ctx, model.CreateIn{
-		Title: req.Titile,
+		Title: req.Title,
 		Email: req.Email,
 	})
 	if err != nil {

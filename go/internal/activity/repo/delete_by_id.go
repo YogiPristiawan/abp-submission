@@ -12,7 +12,7 @@ func (r *Repo) DeleteById(ctx context.Context, id int64) (affected int64, err er
 	}
 
 	tx, err := r.db.BeginTx(ctx, &sql.TxOptions{
-		Isolation: sql.LevelReadCommitted,
+		Isolation: sql.LevelRepeatableRead,
 		ReadOnly:  false,
 	})
 	if err != nil {

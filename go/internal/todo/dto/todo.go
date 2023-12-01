@@ -44,7 +44,8 @@ type FindAllRes struct {
 }
 
 type UpdateByIdReq struct {
-	IsActive primitive.Bool `json:"is_active"`
+	Title    primitive.String `json:"title"`
+	IsActive primitive.Bool   `json:"is_active"`
 }
 
 type UpdateByIdRes struct {
@@ -55,5 +56,5 @@ type UpdateByIdRes struct {
 	Priority        primitive.TodoPriority `json:"priority"`
 	CreatedAt       string                 `json:"created_at"`
 	UpdatedAt       string                 `json:"updated_at"`
-	DeletedAt       primitive.String        `json:"deleted_at"`
+	DeletedAt       primitive.String       `json:"deleted_at"`
 }

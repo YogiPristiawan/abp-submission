@@ -15,7 +15,7 @@ func (p *Presentation) GetById(c *fiber.Ctx) error {
 	if err != nil {
 		var out primitive.BaseResponse
 		out.Status = primitive.ResponseStatusBadRequest
-		out.Message = "invalid body"
+		out.Message = "invalid param"
 		out.Data = struct{}{}
 
 		c.Status(http.StatusBadRequest)
