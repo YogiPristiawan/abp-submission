@@ -16,7 +16,7 @@ func (s *Service) GetById(ctx context.Context, activityId int64) (out primitive.
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			out.Status = primitive.ResponseStatusNotFound
-			out.SetResponse(http.StatusNotFound, fmt.Sprintf("Activity ID with %d Not Found", activityId), err)
+			out.SetResponse(http.StatusNotFound, fmt.Sprintf("Activity with ID %d Not Found", activityId), err)
 			return
 		} else {
 			out.Status = primitive.ResponseStatusInternalServerError

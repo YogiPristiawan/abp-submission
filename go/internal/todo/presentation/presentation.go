@@ -11,8 +11,8 @@ type IService interface {
 	Create(context.Context, dto.CreateReq) primitive.BaseResponse
 	GetById(context.Context, int64) primitive.BaseResponse
 	FindAll(context.Context, dto.FindAllQuery) primitive.BaseResponseArray
-	// UpdateById(context.Context, int64, dto.UpdateById) primitive.BaseResponse
-	// DeleteById(context.Context, int64) primitive.BaseResponse
+	UpdateById(context.Context, int64, dto.UpdateByIdReq) primitive.BaseResponse
+	DeleteById(context.Context, int64) primitive.BaseResponse
 }
 
 type Presentation struct {

@@ -19,8 +19,9 @@ func (r *Repo) DeleteById(ctx context.Context, id int64) (affected int64, err er
 		return
 	}
 
-	var deleteStmt = `UPDATE activities SET deleted_at = ? WHERE id = ? AND deleted_at IS NULL`
-	commandTag, err := tx.ExecContext(ctx, deleteStmt, time.Now().Unix(), id)
+	var stmt = `UPDATE todos SET deleted_at = ? WHERE id = ? AND deleted_at IS NULL`
+
+	commandTag, err := tx.ExecContext(ctx, stmt, time.Now().Unix(), id)
 	if err != nil {
 		err2 := tx.Rollback()
 		if err2 != nil {
@@ -29,8 +30,17 @@ func (r *Repo) DeleteById(ctx context.Context, id int64) (affected int64, err er
 
 		return
 	}
+
 	affected, err = commandTag.RowsAffected()
 	if err != nil {
+		err2 := tx.Rollback()
+		if err2 != nil {
+			return 0, err2
+		}
+
+		return
+	}
+	if affected == 0 {
 		err2 := tx.Rollback()
 		if err2 != nil {
 			return 0, err2
@@ -47,10 +57,6 @@ func (r *Repo) DeleteById(ctx context.Context, id int64) (affected int64, err er
 		}
 
 		return
-	}
-
-	if affected == 0 {
-		return 0, sql.ErrNoRows
 	}
 
 	return

@@ -3,8 +3,8 @@ package presentation
 import (
 	"net/http"
 	"strconv"
-	"todo/internal/activity/dto"
 	"todo/internal/shared/primitive"
+	"todo/internal/todo/dto"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/utils"
@@ -14,7 +14,7 @@ func (p *Presentation) UpdateById(c *fiber.Ctx) error {
 	paramId := utils.CopyString(c.Params("id"))
 	var req dto.UpdateByIdReq
 
-	activityId, err := strconv.ParseInt(paramId, 10, 64)
+	todoId, err := strconv.ParseInt(paramId, 10, 64)
 	if err != nil {
 		var out primitive.BaseResponse
 		out.Status = primitive.ResponseStatusBadRequest
@@ -34,7 +34,7 @@ func (p *Presentation) UpdateById(c *fiber.Ctx) error {
 		return c.JSON(out)
 	}
 
-	out := p.Service.UpdateById(c.Context(), activityId, req)
+	out := p.Service.UpdateById(c.Context(), todoId, req)
 	out.Message = out.GetMessage()
 	if out.GetCode() >= 400 {
 		out.Data = struct{}{}

@@ -19,7 +19,7 @@ func ValidateCreate(req dto.CreateReq) *primitive.RequestValidationError {
 		allIssues = append(allIssues, primitive.RequestValidationIssue{
 			Code:    primitive.RequestValidationCodeTooShort,
 			Field:   "activity_group_id",
-			Message: "activity_gorup_id is required",
+			Message: "activity_group_id cannot be null",
 		})
 	}
 
@@ -28,7 +28,7 @@ func ValidateCreate(req dto.CreateReq) *primitive.RequestValidationError {
 		allIssues = append(allIssues, primitive.RequestValidationIssue{
 			Code:    primitive.RequestValidationCodeTooShort,
 			Field:   "title",
-			Message: "title is required",
+			Message: "title cannot be null",
 		})
 	} else {
 		if len(req.Title) > 255 {

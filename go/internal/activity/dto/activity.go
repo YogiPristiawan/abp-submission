@@ -3,8 +3,8 @@ package dto
 import "todo/internal/shared/primitive"
 
 type CreateReq struct {
-	Titile string `json:"title"`
-	Email  string `json:"email"`
+	Title string `json:"title"`
+	Email string `json:"email"`
 }
 
 type CreateRes struct {
@@ -24,7 +24,7 @@ type GetByIdRes struct {
 	DeletedAt primitive.String `json:"deleted_at"`
 }
 
-type FindAll struct {
+type FindAllRes struct {
 	ID        int64            `json:"id"`
 	Title     string           `json:"title"`
 	Email     string           `json:"email"`
@@ -33,11 +33,11 @@ type FindAll struct {
 	DeletedAt primitive.String `json:"deleted_at"`
 }
 
-type UpdateById struct {
+type UpdateByIdReq struct {
 	Titile string `json:"title"`
 }
 
-type UpdateByIdOutRes struct {
+type UpdateByIdRes struct {
 	ID        int64            `json:"id"`
 	Title     string           `json:"title"`
 	Email     string           `json:"email"`
