@@ -12,7 +12,7 @@ type IService interface {
 	GetById(context.Context, int64) primitive.BaseResponse
 	FindAll(context.Context, dto.FindAllQuery) primitive.BaseResponseArray
 	UpdateById(context.Context, int64, dto.UpdateByIdReq) primitive.BaseResponse
-	// DeleteById(context.Context, int64) primitive.BaseResponse
+	DeleteById(context.Context, int64) primitive.BaseResponse
 }
 
 type Presentation struct {
